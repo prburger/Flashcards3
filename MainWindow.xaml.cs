@@ -14,6 +14,8 @@ namespace v3
     public partial class MainWindow : Window
     {
         private List<Word> wordList = new List<Word>();
+        private Word currentWord;
+        private int currentIndex = 0;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MainWindow" /> class.
@@ -22,10 +24,48 @@ namespace v3
         {
             InitializeComponent();
             this.ReadXml("wordlist.xml");
+            this.currentWord = this.wordList[this.currentIndex];
+            //this.SetData(this.currentWord);
         }
 
         /// <summary>
-        /// Reads the xml data.
+        /// Sets the data.
+        /// </summary>
+        private void SetData(Word word)
+        {
+            Text_Pinyin.Text = word.Pinyin;
+            Text_Hanzi.Text = word.Hanzi;
+            Text_Formality.Text = word.Formality;
+            Text_English.Text = "";
+            Text_PartOfSpeech.Text = "";
+
+            foreach (var m in word.Meaning)
+            {
+                if (word.Meaning.Length > 1)
+                {
+                    Text_English.Text += m + "; ";
+                }
+                else
+                {
+                    Text_English.Text = m;
+                }
+            };
+
+            foreach (var p in word.PartOfSpeech)
+            {
+                if (word.PartOfSpeech.Length > 1)
+                {
+                    Text_PartOfSpeech.Text += p + "; ";
+                }
+                else
+                {
+                    Text_PartOfSpeech.Text = p;
+                }
+            };
+        }
+
+        /// <summary>
+        /// Reads the XML data.
         /// </summary>
         private void ReadXml(string fileName)
         {
@@ -139,6 +179,9 @@ namespace v3
         /// </param>
         private void FirstWord_Click(object sender, RoutedEventArgs e)
         {
+            this.currentIndex = 0;
+            this.currentWord = this.wordList[this.currentIndex];
+            this.SetData(this.currentWord);
         }
 
         /// <summary>
@@ -152,6 +195,17 @@ namespace v3
         /// </param>
         private void PreviousWord_Click(object sender, RoutedEventArgs e)
         {
+            if (this.currentIndex > 0)
+            {
+                this.currentIndex--;
+            }
+            else
+            {
+                this.currentIndex = 0;
+            }
+
+            this.currentWord = this.wordList[this.currentIndex];
+            this.SetData(this.currentWord);
         }
 
         /// <summary>
@@ -165,6 +219,17 @@ namespace v3
         /// </param>
         private void NextWord_Click(object sender, RoutedEventArgs e)
         {
+            if (this.currentIndex < this.wordList.Count - 1)
+            {
+                this.currentIndex++;
+            }
+            else
+            {
+                this.currentIndex = this.wordList.Count;
+            }
+
+            this.currentWord = this.wordList[this.currentIndex];
+            this.SetData(this.currentWord);
         }
 
         /// <summary>
@@ -178,6 +243,9 @@ namespace v3
         /// </param>
         private void LastWord_Click(object sender, RoutedEventArgs e)
         {
+            this.currentIndex = this.wordList.Count - 1;
+            this.currentWord = this.wordList[this.currentIndex];
+            this.SetData(this.currentWord);
         }
     }
 }

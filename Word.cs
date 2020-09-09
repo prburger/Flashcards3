@@ -15,28 +15,33 @@
         /// Initializes a new instance of the <see cref="Word" /> class.
         /// </summary>
         /// <param name="P">
-        /// The p.
+        /// The pinyin.
         /// </param>
-        /// <param name="C">
-        /// The c.
+        /// <param name="H">
+        /// The hanzi.
         /// </param>
         /// <param name="M">
-        /// The m.
+        /// The meaning.
         /// </param>
         /// <param name="PS">
-        /// The p s.
+        /// The part of speech.
         /// </param>
         /// <param name="F">
-        /// The f.
+        /// The formality.
         /// </param>
-        public Word(string P, string C, string[] M, string[] PS, string F)
+        public Word(string P, string H, string[] M, string[] PS, string F)
         {
             this.Pinyin = P;
-            this.Character = C;
+            this.Hanzi = H;
             this.Meaning = M;
             this.PartOfSpeech = PS;
             this.Formality = F;
         }
+
+        /// <summary>
+        /// Gets or sets the hanzi.
+        /// </summary>
+        public string Hanzi { get; set; }
 
         /// <summary>
         /// Gets or sets the pinyin.
