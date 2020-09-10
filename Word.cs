@@ -49,11 +49,6 @@
         public string Pinyin { get; set; }
 
         /// <summary>
-        /// Gets or sets the character.
-        /// </summary>
-        public string Character { get; set; }
-
-        /// <summary>
         /// Gets or sets the meaning.
         /// </summary>
         public string[] Meaning { get; set; }

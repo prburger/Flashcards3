@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace v3
 {
@@ -23,9 +24,10 @@ namespace v3
         public MainWindow()
         {
             InitializeComponent();
-            this.ReadXml("wordlist.xml");
+            this.ReadXml("wordlist.xml");            
             this.currentWord = this.wordList[this.currentIndex];
-            //this.SetData(this.currentWord);
+            this.wordListView.ItemsSource = this.wordList;
+            this.SetData(this.currentWord);
         }
 
         /// <summary>
@@ -69,6 +71,7 @@ namespace v3
         /// </summary>
         private void ReadXml(string fileName)
         {
+           
             XmlTextReader xmlReader;
             xmlReader = new XmlTextReader(Path.Combine(AppDomain.CurrentDomain.BaseDirectory + "\\assets", fileName));
 
@@ -89,7 +92,7 @@ namespace v3
                 DataRow dr = ds.Tables[0].Rows[r];
                 Word w = new Word();
                 w.Pinyin = dr.ItemArray[0].ToString();
-                w.Character = dr.ItemArray[1].ToString();
+                w.Hanzi = dr.ItemArray[1].ToString();
                 w.Meaning = new string[] { String.Join(",", dr.ItemArray[2]) };
                 w.PartOfSpeech = new string[] { String.Join(",", dr.ItemArray[3]) };
                 w.Formality = dr.ItemArray[4].ToString();
@@ -98,8 +101,6 @@ namespace v3
 
             List<Word> sortedList = wordList.OrderBy(w => w.Pinyin).ToList();
             wordList = sortedList;
-            /*this.bindingSource1.DataSource = ds.Tables[0];
-            this.bindingNavigator1.BindingSource = this.bindingSource1;*/
             xmlReader.Close();
         }
 
