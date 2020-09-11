@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Xml;
-using System.Xml.Linq;
 
 namespace v3
 {
@@ -15,6 +14,7 @@ namespace v3
     public partial class MainWindow : Window
     {
         private List<Word> wordList = new List<Word>();
+        private List<Sentence> sentenceList = new List<Sentence>();
         private Word currentWord;
         private int currentIndex = 0;
 
@@ -24,14 +24,72 @@ namespace v3
         public MainWindow()
         {
             InitializeComponent();
-            this.ReadXml("wordlist.xml");            
-            this.currentWord = this.wordList[this.currentIndex];
-            this.wordListView.ItemsSource = this.wordList;
+            this.wordList = ReadWordData("wordlist.xml");
+            this.currentWord = wordList[this.currentIndex];
+            this.wordView.ItemsSource = wordList;
+            this.sentenceView.ItemsSource = ReadSentenceData("sentences.xml");
+            //this.sentenceView.ItemsSource = ReadSentenceData("sentences.xml");
             this.SetData(this.currentWord);
         }
 
         /// <summary>
-        /// Sets the data.
+        /// Gets the data set.
+        /// </summary>
+        /// <param name="fileName">
+        /// The file name.
+        /// </param>
+        /// <returns>
+        /// A DataSet.
+        /// </returns>
+        private DataSet GetDataSet(string fileName)
+        {
+            XmlTextReader xmlReader;
+            xmlReader = new XmlTextReader(Path.Combine(AppDomain.CurrentDomain.BaseDirectory + "\\assets", fileName));
+
+            DataSet ds = new DataSet();
+
+            //read the XML data
+            try
+            {
+                ds.ReadXml(xmlReader);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            xmlReader.Close();
+            return ds;
+        }
+
+        /// <summary>
+        /// Reads the sentence data.
+        /// </summary>
+        /// <param name="fileName">
+        /// The file name.
+        /// </param>
+        /// <returns>
+        /// A list of Sentences.
+        /// </returns>
+        private List<Sentence> ReadSentenceData(string fileName)
+        {
+            DataSet ds = this.GetDataSet(fileName);
+            List<Sentence> list = new List<Sentence>();
+            for (int r = 0; r < ds.Tables[0].Rows.Count; r++)
+            {
+                DataRow dr = ds.Tables[0].Rows[r];
+                Sentence s = new Sentence();
+                s.Hanzi = dr.ItemArray[0].ToString();
+                s.Pinyin = dr.ItemArray[1].ToString();
+                s.English = dr.ItemArray[2].ToString();
+                list.Add(s);
+            }
+
+            List<Sentence> sortedList = list.OrderBy(w => w.English).ToList();
+            return sortedList;
+        }
+
+        /// <summary>
+        /// Sets the current word data.
         /// </summary>
         private void SetData(Word word)
         {
@@ -64,29 +122,16 @@ namespace v3
                     Text_PartOfSpeech.Text = p;
                 }
             };
+            this.wordCount.Content = String.Format("{0}/{1}", this.currentIndex, this.wordList.Count);
         }
 
         /// <summary>
-        /// Reads the XML data.
+        /// Reads the word XML data.
         /// </summary>
-        private void ReadXml(string fileName)
+        private List<Word> ReadWordData(string fileName)
         {
-           
-            XmlTextReader xmlReader;
-            xmlReader = new XmlTextReader(Path.Combine(AppDomain.CurrentDomain.BaseDirectory + "\\assets", fileName));
-
-            DataSet ds = new DataSet();
-
-            //read the XML data
-            try
-            {
-                ds.ReadXml(xmlReader);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-
+            DataSet ds = this.GetDataSet(fileName);
+            List<Word> list = new List<Word>();
             for (int r = 0; r < ds.Tables[0].Rows.Count; r++)
             {
                 DataRow dr = ds.Tables[0].Rows[r];
@@ -96,12 +141,10 @@ namespace v3
                 w.Meaning = new string[] { String.Join(",", dr.ItemArray[2]) };
                 w.PartOfSpeech = new string[] { String.Join(",", dr.ItemArray[3]) };
                 w.Formality = dr.ItemArray[4].ToString();
-                wordList.Add(w);
+                list.Add(w);
             }
-
-            List<Word> sortedList = wordList.OrderBy(w => w.Pinyin).ToList();
-            wordList = sortedList;
-            xmlReader.Close();
+            List<Word> sortedList = list.OrderBy(w => w.Pinyin).ToList();
+            return sortedList;
         }
 
         /// <summary>
