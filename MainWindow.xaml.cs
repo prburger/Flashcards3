@@ -13,13 +13,14 @@ namespace v3
     /// </summary>
     public partial class MainWindow : Window
     {
-        private List<Word> wordList = new List<Word>();
-        private List<Sentence> sentenceList = new List<Sentence>();
-        private Word currentWord;
-        private int currentIndex = 0;
-        private int WordPageLength = 10;
+        private List<Word> WordList = new List<Word>();
+        private List<Sentence> SentenceList = new List<Sentence>();
+        private Word CurrentWord;
+        private int CurrentIndex = 0;
+        private int WordPageLength = 15;
+        private int MaxPageLength = 15;
         private int WordPage = 1;
-        private int SentencePageLength = 10;
+        private int SentencePageLength = 15;
         private int SentencePage = 1;
 
         /// <summary>
@@ -28,11 +29,9 @@ namespace v3
         public MainWindow()
         {
             InitializeComponent();
-            this.wordList = ReadWordData("wordlist.xml");
-            this.currentWord = wordList[this.currentIndex];
-            this.WordView.ItemsSource = wordList;
-            this.SentenceView.ItemsSource = ReadSentenceData("sentences.xml");
-            this.SetData(this.currentWord);
+            WordList = ReadWordData("wordlist.xml");
+            SentenceList = ReadSentenceData("sentences.xml");
+            this.SetData();
         }
 
         /// <summary>
@@ -94,38 +93,18 @@ namespace v3
         /// <summary>
         /// Sets the current word data.
         /// </summary>
-        private void SetData(Word word)
+        private void SetData()
         {
-            Text_Pinyin.Text = word.Pinyin;
-            Text_Hanzi.Text = word.Hanzi;
-            Text_Formality.Text = word.Formality;
-            Text_English.Text = "";
-            Text_PartOfSpeech.Text = "";
-
-            foreach (var m in word.Meaning)
-            {
-                if (word.Meaning.Length > 1)
-                {
-                    Text_English.Text += m + "; ";
-                }
-                else
-                {
-                    Text_English.Text = m;
-                }
-            };
-
-            foreach (var p in word.PartOfSpeech)
-            {
-                if (word.PartOfSpeech.Length > 1)
-                {
-                    Text_PartOfSpeech.Text += p + "; ";
-                }
-                else
-                {
-                    Text_PartOfSpeech.Text = p;
-                }
-            };
+            CurrentWord = WordList[CurrentIndex];
+            WordView.ItemsSource = WordList;
+            Text_Pinyin.Text = CurrentWord.Pinyin;
+            Text_Hanzi.Text = CurrentWord.Hanzi;
+            Text_Formality.Text = CurrentWord.Formality;
+            Text_English.Text = CurrentWord.Meaning;
+            Text_PartOfSpeech.Text = CurrentWord.PartOfSpeech;
             SetPageCounts();
+            this.FirstPageSentence_Click(null, null);
+            this.FirstPageWord_Click(null, null);
         }
 
         /// <summary>
@@ -133,12 +112,27 @@ namespace v3
         /// </summary>
         private void SetPageCounts()
         {
-            this.WordCount.Content = String.Format("{0}/{1}", this.currentIndex, this.wordList.Count - 1);
-            int pageCount = this.wordList.Count / this.WordPageLength;
-            this.WordPageCount.Content = String.Format("{0}/{1}", this.WordPage, pageCount);
-
-            pageCount = 1 + (this.SentenceView.Items.Count / this.SentencePageLength);
-            this.SentenceCount.Content = String.Format("{0}/{1} ", this.SentencePage, pageCount);
+            this.WordCount.Content = String.Format("{0}/{1}", CurrentIndex, WordList.Count - 1);
+            int pageCount = WordList.Count / this.WordPageLength;
+            this.WordPageCount.Content = String.Format("{0}/{1}", this.WordPage + 1, pageCount);
+            pageCount = this.SentenceView.Items.Count / this.SentencePageLength;
+            this.SentenceCount.Content = String.Format("{0}/{1} ", this.SentencePage + 1, pageCount);
+            if (SentenceList.Count < MaxPageLength)
+            {
+                SentencePageLength = SentenceList.Count;
+            }
+            else
+            {
+                SentencePageLength = MaxPageLength;
+            }
+            if (SentenceList.Count < MaxPageLength)
+            {
+                SentencePageLength = SentenceList.Count;
+            }
+            else
+            {
+                SentencePageLength = MaxPageLength;
+            }
         }
 
         /// <summary>
@@ -154,8 +148,8 @@ namespace v3
                 Word w = new Word();
                 w.Pinyin = dr.ItemArray[0].ToString();
                 w.Hanzi = dr.ItemArray[1].ToString();
-                w.Meaning = new string[] { String.Join(",", dr.ItemArray[2]) };
-                w.PartOfSpeech = new string[] { String.Join(",", dr.ItemArray[3]) };
+                w.Meaning = dr.ItemArray[2].ToString();
+                w.PartOfSpeech = dr.ItemArray[3].ToString();
                 w.Formality = dr.ItemArray[4].ToString();
                 list.Add(w);
             }
@@ -239,9 +233,9 @@ namespace v3
         /// </param>
         private void FirstWord_Click(object sender, RoutedEventArgs e)
         {
-            this.currentIndex = 0;
-            this.currentWord = this.wordList[this.currentIndex];
-            this.SetData(this.currentWord);
+            CurrentIndex = 0;
+            CurrentWord = WordList[CurrentIndex];
+            this.SetData();
         }
 
         /// <summary>
@@ -255,17 +249,17 @@ namespace v3
         /// </param>
         private void PreviousWord_Click(object sender, RoutedEventArgs e)
         {
-            if (this.currentIndex > 0)
+            if (CurrentIndex > 0)
             {
-                this.currentIndex--;
+                CurrentIndex--;
             }
             else
             {
-                this.currentIndex = 0;
+                CurrentIndex = 0;
             }
 
-            this.currentWord = this.wordList[this.currentIndex];
-            this.SetData(this.currentWord);
+            CurrentWord = WordList[CurrentIndex];
+            this.SetData();
         }
 
         /// <summary>
@@ -279,12 +273,12 @@ namespace v3
         /// </param>
         private void NextWord_Click(object sender, RoutedEventArgs e)
         {
-            if (this.currentIndex < this.wordList.Count - 1)
+            if (CurrentIndex < WordList.Count - 1)
             {
-                this.currentIndex++;
+                CurrentIndex++;
             }
-            this.currentWord = this.wordList[this.currentIndex];
-            this.SetData(this.currentWord);
+            CurrentWord = WordList[CurrentIndex];
+            this.SetData();
         }
 
         /// <summary>
@@ -298,9 +292,9 @@ namespace v3
         /// </param>
         private void LastWord_Click(object sender, RoutedEventArgs e)
         {
-            this.currentIndex = this.wordList.Count - 1;
-            this.currentWord = this.wordList[this.currentIndex];
-            this.SetData(this.currentWord);
+            CurrentIndex = WordList.Count - 1;
+            CurrentWord = WordList[CurrentIndex];
+            this.SetData();
         }
 
         /// <summary>
@@ -314,6 +308,9 @@ namespace v3
         /// </param>
         private void FirstPageSentence_Click(object sender, RoutedEventArgs e)
         {
+            SentencePage = 0;
+            SentenceView.ItemsSource = SentenceList.GetRange(SentencePage * SentencePageLength, SentencePageLength);
+            this.SetPageCounts();
         }
 
         /// <summary>
@@ -327,6 +324,12 @@ namespace v3
         /// </param>
         private void PreviousPageSentence_Click(object sender, RoutedEventArgs e)
         {
+            if (SentencePage > 0)
+            {
+                SentencePage--;
+            }
+            SentenceView.ItemsSource = SentenceList.GetRange(SentencePage * SentencePageLength, SentencePageLength);
+            this.SetPageCounts();
         }
 
         /// <summary>
@@ -340,6 +343,12 @@ namespace v3
         /// </param>
         private void NextPageSentence_Click(object sender, RoutedEventArgs e)
         {
+            if (SentencePage < (SentenceList.Count / SentencePageLength) - 1)
+            {
+                SentencePage++;
+            }
+            SentenceView.ItemsSource = SentenceList.GetRange(SentencePage * SentencePageLength, SentencePageLength);
+            this.SetPageCounts();
         }
 
         /// <summary>
@@ -353,6 +362,9 @@ namespace v3
         /// </param>
         private void LastPageSentence_Click(object sender, RoutedEventArgs e)
         {
+            SentencePage = (SentenceList.Count / SentencePageLength);
+            SentenceView.ItemsSource = SentenceList.GetRange(SentencePage * SentencePageLength, SentencePageLength);
+            this.SetPageCounts();
         }
 
         /// <summary>
@@ -366,6 +378,9 @@ namespace v3
         /// </param>
         private void FirstPageWord_Click(object sender, RoutedEventArgs e)
         {
+            WordPage = 0;
+            WordView.ItemsSource = WordList.GetRange(WordPage * WordPageLength, WordPageLength);
+            this.SetPageCounts();
         }
 
         /// <summary>
@@ -379,6 +394,12 @@ namespace v3
         /// </param>
         private void PreviousPageWord_Click(object sender, RoutedEventArgs e)
         {
+            if (WordPage > 0)
+            {
+                WordPage--;
+            }
+            WordView.ItemsSource = WordList.GetRange(WordPage * WordPageLength, WordPageLength);
+            this.SetPageCounts();
         }
 
         /// <summary>
@@ -392,6 +413,12 @@ namespace v3
         /// </param>
         private void NextPageWord_Click(object sender, RoutedEventArgs e)
         {
+            if (WordPage < WordList.Count / WordPageLength)
+            {
+                WordPage++;
+            }
+            this.WordView.ItemsSource = WordList.GetRange(WordPage * WordPageLength, WordPageLength);
+            this.SetPageCounts();
         }
 
         /// <summary>
@@ -405,6 +432,9 @@ namespace v3
         /// </param>
         private void LastPageWord_Click(object sender, RoutedEventArgs e)
         {
+            WordPage = WordList.Count / WordPageLength;
+            this.WordView.ItemsSource = WordList.GetRange(WordPage * WordPageLength, WordPageLength);
+            this.SetPageCounts();
         }
     }
 }

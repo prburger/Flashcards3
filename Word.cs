@@ -29,7 +29,7 @@
         /// <param name="F">
         /// The formality.
         /// </param>
-        public Word(string P, string H, string[] M, string[] PS, string F)
+        public Word(string P, string H, string M, string PS, string F)
         {
             this.Pinyin = P;
             this.Hanzi = H;
@@ -51,12 +51,12 @@
         /// <summary>
         /// Gets or sets the meaning.
         /// </summary>
-        public string[] Meaning { get; set; }
+        public string Meaning { get; set; }
 
         /// <summary>
         /// Gets or sets the part of speech.
         /// </summary>
-        public string[] PartOfSpeech { get; set; }
+        public string PartOfSpeech { get; set; }
 
         /// <summary>
         /// Gets or sets the formality.

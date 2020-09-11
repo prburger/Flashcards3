@@ -163,21 +163,33 @@
                         VerticalAlignment="Top"
                         Background="AliceBlue"
                         Orientation="Horizontal">
-                        <Button Content="&#60;&#60;" Name="FirstPageSentence" Click="FirstPageSentence_Click" />
-                        <Button Content="&#60;" Name="PreviousPageSentence" Click="PreviousPageSentence_Click" />
+                        <Button
+                            Name="FirstPageSentence"
+                            Click="FirstPageSentence_Click"
+                            Content="&#60;&#60;" />
+                        <Button
+                            Name="PreviousPageSentence"
+                            Click="PreviousPageSentence_Click"
+                            Content="&#60;" />
                         <Label x:Name="SentenceCount" />
-                        <Button Content="&#62;" Name="NextPageSentence" Click="NextPageSentence_Click" />
-                        <Button Content="&#62;&#62;" Name="LastPageSentence" Click="LastPageSentence_Click" />
+                        <Button
+                            Name="NextPageSentence"
+                            Click="NextPageSentence_Click"
+                            Content="&#62;" />
+                        <Button
+                            Name="LastPageSentence"
+                            Click="LastPageSentence_Click"
+                            Content="&#62;&#62;" />
                     </StackPanel>
                     <DataGrid
-                            MaxHeight="300"
-                            Name="SentenceView"
-                            Grid.Row="0"
-                            Grid.Column="0"
-                            AutoGenerateColumns="True"
-                            ScrollViewer.CanContentScroll="True"
-                            ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                            ScrollViewer.VerticalScrollBarVisibility="Auto" />
+                        Name="SentenceView"
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        MaxHeight="300"
+                        AutoGenerateColumns="True"
+                        ScrollViewer.CanContentScroll="True"
+                        ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                        ScrollViewer.VerticalScrollBarVisibility="Auto" />
                 </StackPanel>
             </TabItem>
             <TabItem Header="Word List">
@@ -187,21 +199,44 @@
                         VerticalAlignment="Top"
                         Background="AliceBlue"
                         Orientation="Horizontal">
-                        <Button Content="&#60;&#60;" Name="FirstPageWord" Click="FirstPageWord_Click" />
-                        <Button Content="&#60;" Name="PreviousPageWord" Click="PreviousPageWord_Click" />
+                        <Button
+                            Name="FirstPageWord"
+                            Click="FirstPageWord_Click"
+                            Content="&#60;&#60;" />
+                        <Button
+                            Name="PreviousPageWord"
+                            Click="PreviousPageWord_Click"
+                            Content="&#60;" />
                         <Label x:Name="WordPageCount" />
-                        <Button Content="&#62;" Name="NextPageWord" Click="NextPageWord_Click" />
-                        <Button Content="&#62;&#62;" Name="LastPageWord" Click="LastPageWord_Click" />
+                        <Button
+                            Name="NextPageWord"
+                            Click="NextPageWord_Click"
+                            Content="&#62;" />
+                        <Button
+                            Name="LastPageWord"
+                            Click="LastPageWord_Click"
+                            Content="&#62;&#62;" />
                     </StackPanel>
-                    <DataGrid
-                            Name="WordView"
-                            Grid.Row="0"
-                            Grid.Column="0"
-                            MaxHeight="300"
-                            AutoGenerateColumns="True"
-                            ScrollViewer.CanContentScroll="True"
-                            ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                            ScrollViewer.VerticalScrollBarVisibility="Auto" />
+                    <Grid>
+                        <DataGrid
+                        Name="WordView"
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        MaxHeight="300"
+                        AutoGenerateColumns="False"
+                        ScrollViewer.CanContentScroll="True"
+                        ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                        ScrollViewer.VerticalScrollBarVisibility="Auto">
+                            <DataGrid.Columns>
+
+                                <DataGridTextColumn Header="Pinyin" Binding="{Binding Pinyin}" />
+                                <DataGridTextColumn Header="English" Binding="{Binding Meaning}" />
+                                <DataGridTextColumn Header="Hanzi" Binding="{Binding Hanzi}" />
+                                <DataGridTextColumn Header="Part of Speech" Binding="{Binding PartOfSpeech}" />
+                                <DataGridTextColumn Header="Formality" Binding="{Binding Formality}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
                 </StackPanel>
             </TabItem>
         </TabControl>
