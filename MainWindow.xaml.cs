@@ -17,6 +17,10 @@ namespace v3
         private List<Sentence> sentenceList = new List<Sentence>();
         private Word currentWord;
         private int currentIndex = 0;
+        private int WordPageLength = 10;
+        private int WordPage = 1;
+        private int SentencePageLength = 10;
+        private int SentencePage = 1;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MainWindow" /> class.
@@ -26,9 +30,8 @@ namespace v3
             InitializeComponent();
             this.wordList = ReadWordData("wordlist.xml");
             this.currentWord = wordList[this.currentIndex];
-            this.wordView.ItemsSource = wordList;
-            this.sentenceView.ItemsSource = ReadSentenceData("sentences.xml");
-            //this.sentenceView.ItemsSource = ReadSentenceData("sentences.xml");
+            this.WordView.ItemsSource = wordList;
+            this.SentenceView.ItemsSource = ReadSentenceData("sentences.xml");
             this.SetData(this.currentWord);
         }
 
@@ -122,7 +125,20 @@ namespace v3
                     Text_PartOfSpeech.Text = p;
                 }
             };
-            this.wordCount.Content = String.Format("{0}/{1}", this.currentIndex, this.wordList.Count);
+            SetPageCounts();
+        }
+
+        /// <summary>
+        /// Sets the page counts.
+        /// </summary>
+        private void SetPageCounts()
+        {
+            this.WordCount.Content = String.Format("{0}/{1}", this.currentIndex, this.wordList.Count - 1);
+            int pageCount = this.wordList.Count / this.WordPageLength;
+            this.WordPageCount.Content = String.Format("{0}/{1}", this.WordPage, pageCount);
+
+            pageCount = 1 + (this.SentenceView.Items.Count / this.SentencePageLength);
+            this.SentenceCount.Content = String.Format("{0}/{1} ", this.SentencePage, pageCount);
         }
 
         /// <summary>
@@ -267,11 +283,6 @@ namespace v3
             {
                 this.currentIndex++;
             }
-            else
-            {
-                this.currentIndex = this.wordList.Count;
-            }
-
             this.currentWord = this.wordList[this.currentIndex];
             this.SetData(this.currentWord);
         }
@@ -290,6 +301,110 @@ namespace v3
             this.currentIndex = this.wordList.Count - 1;
             this.currentWord = this.wordList[this.currentIndex];
             this.SetData(this.currentWord);
+        }
+
+        /// <summary>
+        /// move to the First page of sentences.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void FirstPageSentence_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        /// <summary>
+        /// move to the Previous page of sentences.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void PreviousPageSentence_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        /// <summary>
+        /// move to the Next page of sentences.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void NextPageSentence_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        /// <summary>
+        /// move to the Last page of sentences.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void LastPageSentence_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        /// <summary>
+        /// move to the First page of words.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void FirstPageWord_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        /// <summary>
+        /// move to the Previous page of words.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void PreviousPageWord_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        /// <summary>
+        /// move to the Next page of words.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void NextPageWord_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        /// <summary>
+        /// move to the Last page of words.
+        /// </summary>
+        /// <param name="sender">
+        /// The sender.
+        /// </param>
+        /// <param name="e">
+        /// The e.
+        /// </param>
+        private void LastPageWord_Click(object sender, RoutedEventArgs e)
+        {
         }
     }
 }

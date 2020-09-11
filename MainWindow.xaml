@@ -8,171 +8,201 @@
     Title="Flashcards V3"
     Width="800"
     Height="450"
+    Background="AliceBlue"
     mc:Ignorable="d">
 
-    <!--<Window.Resources>
-        <FontFamily x:Key="FontAwesome">pack://application:,,,/Resources/#FontAwesome</FontFamily>
-        <XmlDataProvider
-            x:Key="WordData"
-            Source="assets\wordlist.xml"
-            XPath="wordList" />
-    </Window.Resources>-->
-
     <DockPanel Background="AliceBlue">
-        <ToolBarTray DockPanel.Dock="Top">
-            <ToolBar
-                Background="Azure"
-                Band="1"
-                BandIndex="1">
-                <StackPanel Orientation="Horizontal">
-                    <Button
-                        Name="FirstWord"
-                        Click="FirstWord_Click"
-                        Content="&#60;&#60;"
-                        ToolTip="First" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <Button
-                        Name="PreviousWord"
-                        Click="PreviousWord_Click"
-                        Content="&#60;"
-                        ToolTip="Previous" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <Label x:Name="wordCount" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <Button
-                        Name="NextWord"
-                        Click="NextWord_Click"
-                        Content="&#62;"
-                        ToolTip="Next" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <Button
-                        Name="lastWord"
-                        Click="LastWord_Click"
-                        Content="&#62;&#62;"
-                        ToolTip="Last" />
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <Button />
-                </StackPanel>
-            </ToolBar>
-        </ToolBarTray>
-        <TabControl FontFamily="Calibri" FontSize="12">
+        <TabControl
+            Background="AliceBlue"
+            FontFamily="Calibri"
+            FontSize="12">
             <TabItem Header="Cards">
-                <StackPanel Orientation="Vertical">
-                    <Grid Margin="0,20,0,0" Background="AliceBlue">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="40" />
-                            <RowDefinition Height="40" />
-                            <RowDefinition Height="40" />
-                            <RowDefinition Height="40" />
-                            <RowDefinition Height="40" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="400" />
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="200" />
-                        </Grid.ColumnDefinitions>
-                        <Label
-                            Grid.Row="0"
-                            Grid.Column="0"
-                            Background="AliceBlue"
-                            Content="Pinyin" />
-                        <Label
-                            Grid.Row="1"
-                            Grid.Column="0"
-                            Background="AliceBlue"
-                            Content="English" />
-                        <Label
-                            Grid.Row="2"
-                            Grid.Column="0"
-                            Background="AliceBlue"
-                            Content="Hanzi" />
-                        <Label
-                            Grid.Row="3"
-                            Grid.Column="0"
-                            Background="AliceBlue"
-                            Content="Formality" />
-                        <Label
-                            Grid.Row="4"
-                            Grid.Column="0"
-                            Background="AliceBlue"
-                            Content="Part of speech" />
-
-                        <TextBox
-                            x:Name="Text_Pinyin"
-                            Grid.Row="0"
-                            Grid.Column="1"
-                            Text="{Binding Pinyin, BindsDirectlyToSource=True, UpdateSourceTrigger=PropertyChanged}" />
-                        <TextBox
-                            x:Name="Text_English"
-                            Grid.Row="1"
-                            Grid.Column="1"
-                            Text="{Binding English, BindsDirectlyToSource=True, UpdateSourceTrigger=PropertyChanged}" />
-                        <TextBox
-                            x:Name="Text_Hanzi"
-                            Grid.Row="2"
-                            Grid.Column="1"
-                            Text="{Binding Hanzi, BindsDirectlyToSource=True, UpdateSourceTrigger=PropertyChanged}" />
-                        <TextBox
-                            x:Name="Text_PartOfSpeech"
-                            Grid.Row="3"
-                            Grid.Column="1"
-                            Text="{Binding PartOfSpeech, BindsDirectlyToSource=True, UpdateSourceTrigger=PropertyChanged}" />
-                        <TextBox
-                            x:Name="Text_Formality"
-                            Grid.Row="4"
-                            Grid.Column="1"
-                            Text="{Binding Formality, BindsDirectlyToSource=True, UpdateSourceTrigger=PropertyChanged}" />
-
-                        <StackPanel
-                            Grid.Row="0"
-                            Grid.RowSpan="3"
-                            Grid.Column="3"
-                            Margin="0,0,0,15"
-                            Orientation="Vertical">
-                            <CheckBox
-                                x:Name="Check_Pinyin"
-                                HorizontalAlignment="Left"
-                                Click="Check_Pinyin_Click"
-                                Content="Pinyin" />
-                            <CheckBox
-                                x:Name="Check_English"
-                                HorizontalAlignment="Left"
-                                Click="Check_English_Click"
-                                Content="English" />
-                            <CheckBox
-                                x:Name="Check_Hanzi"
-                                HorizontalAlignment="Left"
-                                Click="Check_Hanzi_Click"
-                                Content="Hanzi" />
-                            <CheckBox
-                                x:Name="Check_PartOfSpeech"
-                                HorizontalAlignment="Left"
-                                Click="Check_PartOfSpeech_Click"
-                                Content="Part of speech" />
-                            <CheckBox
-                                x:Name="Check_Formality"
-                                HorizontalAlignment="Left"
-                                Click="Check_Formality_Click"
-                                Content="Formality" />
+                <StackPanel
+                    Height="412"
+                    VerticalAlignment="Top"
+                    Orientation="Vertical">
+                    <StackPanel
+                        HorizontalAlignment="Center"
+                        Background="AliceBlue"
+                        Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal">
+                            <Button
+                                Name="FirstWord"
+                                Click="FirstWord_Click"
+                                Content="&#60;&#60;"
+                                ToolTip="First" />
                         </StackPanel>
-                    </Grid>
+                        <StackPanel Orientation="Horizontal">
+                            <Button
+                                Name="PreviousWord"
+                                Click="PreviousWord_Click"
+                                Content="&#60;"
+                                ToolTip="Previous" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label x:Name="WordCount" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Button
+                                Name="NextWord"
+                                Click="NextWord_Click"
+                                Content="&#62;"
+                                ToolTip="Next" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Button
+                                Name="lastWord"
+                                Click="LastWord_Click"
+                                Content="&#62;&#62;"
+                                ToolTip="Last" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <StackPanel>
+                        <Grid Margin="0,20,0,0" Background="AliceBlue">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40" />
+                                <RowDefinition Height="40" />
+                                <RowDefinition Height="40" />
+                                <RowDefinition Height="40" />
+                                <RowDefinition Height="40" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="500" />
+                                <ColumnDefinition Width="100" />
+                                <ColumnDefinition Width="200" />
+                            </Grid.ColumnDefinitions>
+                            <Label
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Content="Pinyin" />
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Content="English" />
+                            <Label
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                Content="Hanzi" />
+                            <Label
+                                Grid.Row="3"
+                                Grid.Column="0"
+                                Content="Formality" />
+                            <Label
+                                Grid.Row="4"
+                                Grid.Column="0"
+                                Content="Part of speech" />
+
+                            <TextBox
+                                x:Name="Text_Pinyin"
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Text="{Binding Pinyin, BindsDirectlyToSource=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBox
+                                x:Name="Text_English"
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Text="{Binding English, BindsDirectlyToSource=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBox
+                                x:Name="Text_Hanzi"
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Text="{Binding Hanzi, BindsDirectlyToSource=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBox
+                                x:Name="Text_PartOfSpeech"
+                                Grid.Row="3"
+                                Grid.Column="1"
+                                Text="{Binding PartOfSpeech, BindsDirectlyToSource=True, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBox
+                                x:Name="Text_Formality"
+                                Grid.Row="4"
+                                Grid.Column="1"
+                                Text="{Binding Formality, BindsDirectlyToSource=True, UpdateSourceTrigger=PropertyChanged}" />
+
+                            <StackPanel
+                                Grid.Row="0"
+                                Grid.RowSpan="3"
+                                Grid.Column="3"
+                                Margin="0,0,0,15"
+                                Orientation="Vertical">
+                                <CheckBox
+                                    x:Name="Check_Pinyin"
+                                    HorizontalAlignment="Left"
+                                    Click="Check_Pinyin_Click"
+                                    Content="Pinyin" />
+                                <CheckBox
+                                    x:Name="Check_English"
+                                    HorizontalAlignment="Left"
+                                    Click="Check_English_Click"
+                                    Content="English" />
+                                <CheckBox
+                                    x:Name="Check_Hanzi"
+                                    HorizontalAlignment="Left"
+                                    Click="Check_Hanzi_Click"
+                                    Content="Hanzi" />
+                                <CheckBox
+                                    x:Name="Check_PartOfSpeech"
+                                    HorizontalAlignment="Left"
+                                    Click="Check_PartOfSpeech_Click"
+                                    Content="Part of speech" />
+                                <CheckBox
+                                    x:Name="Check_Formality"
+                                    HorizontalAlignment="Left"
+                                    Click="Check_Formality_Click"
+                                    Content="Formality" />
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
                 </StackPanel>
             </TabItem>
-            <TabItem Header="Sentences">
-                <ScrollViewer>
-                    <DataGrid Name="sentenceView" />
-                </ScrollViewer>
+            <TabItem Background="Azure" Header="Sentences">
+                <StackPanel Orientation="Vertical">
+                    <StackPanel
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        Background="AliceBlue"
+                        Orientation="Horizontal">
+                        <Button Content="&#60;&#60;" Name="FirstPageSentence" Click="FirstPageSentence_Click" />
+                        <Button Content="&#60;" Name="PreviousPageSentence" Click="PreviousPageSentence_Click" />
+                        <Label x:Name="SentenceCount" />
+                        <Button Content="&#62;" Name="NextPageSentence" Click="NextPageSentence_Click" />
+                        <Button Content="&#62;&#62;" Name="LastPageSentence" Click="LastPageSentence_Click" />
+                    </StackPanel>
+                    <DataGrid
+                            MaxHeight="300"
+                            Name="SentenceView"
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            AutoGenerateColumns="True"
+                            ScrollViewer.CanContentScroll="True"
+                            ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                            ScrollViewer.VerticalScrollBarVisibility="Auto" />
+                </StackPanel>
             </TabItem>
             <TabItem Header="Word List">
-                <ScrollViewer>
-                    <DataGrid Name="wordView" />
-                </ScrollViewer>
+                <StackPanel Orientation="Vertical">
+                    <StackPanel
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        Background="AliceBlue"
+                        Orientation="Horizontal">
+                        <Button Content="&#60;&#60;" Name="FirstPageWord" Click="FirstPageWord_Click" />
+                        <Button Content="&#60;" Name="PreviousPageWord" Click="PreviousPageWord_Click" />
+                        <Label x:Name="WordPageCount" />
+                        <Button Content="&#62;" Name="NextPageWord" Click="NextPageWord_Click" />
+                        <Button Content="&#62;&#62;" Name="LastPageWord" Click="LastPageWord_Click" />
+                    </StackPanel>
+                    <DataGrid
+                            Name="WordView"
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            MaxHeight="300"
+                            AutoGenerateColumns="True"
+                            ScrollViewer.CanContentScroll="True"
+                            ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                            ScrollViewer.VerticalScrollBarVisibility="Auto" />
+                </StackPanel>
             </TabItem>
         </TabControl>
     </DockPanel>
